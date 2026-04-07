@@ -1,0 +1,16 @@
+[plugin]
+id = "quick"
+name = "Quick"
+version = "0.1.0"
+description = "Quick handoff surface for tray capture and thread bootstrap"
+authors = ["Graphyn"]
+
+capabilities = [
+  "quick_handoff",
+  "thread_bootstrap",
+  "context_capture",
+]
+
+[rules]
+workflow = ["capture_context", "submit_handoff", "open_thread"]
+supported_tools = ["quick_submit_handoff"]

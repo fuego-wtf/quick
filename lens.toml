@@ -1,0 +1,35 @@
+[lens]
+id = "quick"
+name = "Quick"
+version = "0.1.0"
+description = "Quick handoff surface for tray capture and thread bootstrap"
+authors = ["Graphyn"]
+
+surface = "tray"
+surfaces = ["tray"]
+
+capabilities = [
+  "quick_handoff",
+  "thread_bootstrap",
+  "context_capture",
+]
+
+[[shortcuts]]
+id = "launcher"
+action = "launch"
+combo = "CommandOrControl+Alt+Space"
+global = true
+description = "Open Quick launcher"
+
+[surfaces.tray]
+component = "ui/dist/index.js"
+
+[rules]
+workflow = ["capture_context", "submit_handoff", "open_thread"]
+supported_tools = ["lens_submit_handoff"]
+
+[[rules.constraints]]
+tool = "lens_submit_handoff"
+type = "idempotent"
+requires_confirmation = false
+description = "Creates a thread and posts a user message from the lens tray payload"
