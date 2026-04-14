@@ -180,6 +180,7 @@ export function QuickComposerSurface({
   const [quantity, setQuantity] = useState(1);
   const [contextAttached, setContextAttached] = useState(false);
   const [selectedTarget, setSelectedTarget] = useState<QuickSelectedTarget | null>(null);
+  const [detailsOpen, setDetailsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -271,9 +272,9 @@ export function QuickComposerSurface({
         backgroundRepeat: 'no-repeat',
       }}
     >
-      <div className='w-full max-w-[1280px]'>
-        <div className='mb-2 flex items-center justify-between'>
-          <div className='flex flex-wrap items-center gap-1.5'>
+      <div className='w-full max-w-[780px] rounded-xl border border-white/10 bg-[color-mix(in_srgb,var(--background)_78%,transparent)] p-3 shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur-xl'>
+        <div className='mb-2 flex items-start gap-2'>
+          <div className='flex flex-1 flex-wrap items-center gap-1.5'>
             {resolvedSuggestions.map((suggestion) => {
               const isActive = suggestion.id === activeSuggestionId;
               return (
@@ -288,7 +289,7 @@ export function QuickComposerSurface({
                     }
                   }}
                   className={[
-                    'rounded px-2 py-1 text-[11px] leading-none transition-colors',
+                    'rounded px-2 py-1 text-[11px] leading-none transition-colors whitespace-nowrap',
                     isActive
                       ? 'bg-[var(--quick-glass-active)] text-[var(--quick-text)]'
                       : 'bg-[var(--quick-glass)] text-[var(--quick-text-muted)] hover:bg-[var(--quick-glass-hover)]',
@@ -299,11 +300,18 @@ export function QuickComposerSurface({
               );
             })}
           </div>
+          <button
+            type='button'
+            onClick={() => setDetailsOpen((value) => !value)}
+            className='rounded px-2 py-1 text-[11px] text-[var(--quick-text-muted)] hover:bg-[var(--quick-glass-hover)]'
+          >
+            {detailsOpen ? 'Hide details' : 'Show details'}
+          </button>
           {onDismiss ? (
             <button
               type='button'
               onClick={onDismiss}
-              className='rounded px-2 py-1 text-[11px] text-[var(--quick-text-muted)] hover:bg-[var(--quick-glass-hover)]'
+              className='ml-auto rounded px-2 py-1 text-[11px] text-[var(--quick-text-muted)] hover:bg-[var(--quick-glass-hover)]'
             >
               Dismiss
             </button>
@@ -348,6 +356,7 @@ export function QuickComposerSurface({
           placeholder='Ask anything...'
           onEscape={onDismiss}
           disabled={isSubmitting}
+          className='quick-composer-shell bg-[color-mix(in_srgb,var(--card)_92%,transparent)] focus-within:!border-[var(--gray-divider)] focus-within:!ring-0 focus-within:!ring-offset-0 focus-within:!shadow-none focus-within:[--tw-ring-shadow:0_0_#0000] focus-within:[--tw-ring-offset-shadow:0_0_#0000]'
         />
 
         {errorMessage ? (
@@ -356,82 +365,89 @@ export function QuickComposerSurface({
           </div>
         ) : null}
 
-        <div className='mt-2 flex items-center justify-between gap-3 text-xs text-[var(--quick-text-muted)]'>
-          <div className='flex items-center gap-2'>
-            <button
-              type='button'
-              onClick={() => setContextAttached((value) => !value)}
-              className={[
-                'rounded px-2 py-1 transition-colors',
-                contextAttached
-                  ? 'bg-[var(--quick-glass-active)] text-[var(--quick-text)]'
-                  : 'bg-[var(--quick-glass)] hover:bg-[var(--quick-glass-hover)]',
-              ].join(' ')}
-              title={contextAttached ? 'Context attached' : 'Attach context'}
-            >
-              + Context
-            </button>
+        {detailsOpen ? (
+          <div className='mt-2 flex items-center justify-between gap-3 text-xs text-[var(--quick-text-muted)]'>
+            <div className='flex items-center gap-2'>
+              <button
+                type='button'
+                onClick={() => setContextAttached((value) => !value)}
+                className={[
+                  'rounded px-2 py-1 transition-colors',
+                  contextAttached
+                    ? 'bg-[var(--quick-glass-active)] text-[var(--quick-text)]'
+                    : 'bg-[var(--quick-glass)] hover:bg-[var(--quick-glass-hover)]',
+                ].join(' ')}
+                title={contextAttached ? 'Context attached' : 'Attach context'}
+              >
+                + Context
+              </button>
 
-            <button
-              type='button'
-              onClick={() => {
-                const currentIndex = MODE_CYCLE.indexOf(modeId);
-                const nextMode = MODE_CYCLE[(currentIndex + 1) % MODE_CYCLE.length];
-                setModeId(nextMode);
-              }}
-              className='rounded bg-[var(--quick-glass)] px-2 py-1 hover:bg-[var(--quick-glass-hover)]'
-              title='Cycle mode'
-            >
-              {modeToLabel(modeId)}
-            </button>
+              <button
+                type='button'
+                onClick={() => {
+                  const currentIndex = MODE_CYCLE.indexOf(modeId);
+                  const nextMode = MODE_CYCLE[(currentIndex + 1) % MODE_CYCLE.length];
+                  setModeId(nextMode);
+                }}
+                className='rounded bg-[var(--quick-glass)] px-2 py-1 hover:bg-[var(--quick-glass-hover)]'
+                title='Cycle mode'
+              >
+                {modeToLabel(modeId)}
+              </button>
 
-            <button
-              type='button'
-              onClick={() => {
-                const currentIndex = resolvedSessionModes.indexOf(sessionMode);
-                const nextIndex = (currentIndex + 1) % resolvedSessionModes.length;
-                setSessionMode(resolvedSessionModes[nextIndex]);
-              }}
-              className='rounded bg-[var(--quick-glass)] px-2 py-1 hover:bg-[var(--quick-glass-hover)]'
-              title='Cycle session mode'
-            >
-              {sessionMode}
-            </button>
+              <button
+                type='button'
+                onClick={() => {
+                  const currentIndex = resolvedSessionModes.indexOf(sessionMode);
+                  const nextIndex = (currentIndex + 1) % resolvedSessionModes.length;
+                  setSessionMode(resolvedSessionModes[nextIndex]);
+                }}
+                className='rounded bg-[var(--quick-glass)] px-2 py-1 hover:bg-[var(--quick-glass-hover)]'
+                title='Cycle session mode'
+              >
+                {sessionMode}
+              </button>
+            </div>
+
+            <div className='flex items-center gap-2'>
+              <button
+                type='button'
+                onClick={() => setModelIdx((index) => (index + 1) % resolvedModels.length)}
+                className='rounded bg-[var(--quick-glass)] px-2 py-1 hover:bg-[var(--quick-glass-hover)]'
+                title='Cycle model'
+              >
+                {resolvedModels[modelIdx]}
+              </button>
+
+              <span className='inline-block h-1.5 w-1.5 rounded-full bg-emerald-500' />
+
+              <button
+                type='button'
+                onClick={() => setQuantity((value) => Math.max(1, value - 1))}
+                className='rounded bg-[var(--quick-glass)] px-1.5 py-1 hover:bg-[var(--quick-glass-hover)]'
+                title='Decrease quantity'
+              >
+                -
+              </button>
+
+              <span className='min-w-[26px] text-center'>x{quantity}</span>
+
+              <button
+                type='button'
+                onClick={() => setQuantity((value) => Math.min(9, value + 1))}
+                className='rounded bg-[var(--quick-glass)] px-1.5 py-1 hover:bg-[var(--quick-glass-hover)]'
+                title='Increase quantity'
+              >
+                +
+              </button>
+            </div>
           </div>
-
-          <div className='flex items-center gap-2'>
-            <button
-              type='button'
-              onClick={() => setModelIdx((index) => (index + 1) % resolvedModels.length)}
-              className='rounded bg-[var(--quick-glass)] px-2 py-1 hover:bg-[var(--quick-glass-hover)]'
-              title='Cycle model'
-            >
-              {resolvedModels[modelIdx]}
-            </button>
-
-            <span className='inline-block h-1.5 w-1.5 rounded-full bg-emerald-500' />
-
-            <button
-              type='button'
-              onClick={() => setQuantity((value) => Math.max(1, value - 1))}
-              className='rounded bg-[var(--quick-glass)] px-1.5 py-1 hover:bg-[var(--quick-glass-hover)]'
-              title='Decrease quantity'
-            >
-              -
-            </button>
-
-            <span className='min-w-[26px] text-center'>x{quantity}</span>
-
-            <button
-              type='button'
-              onClick={() => setQuantity((value) => Math.min(9, value + 1))}
-              className='rounded bg-[var(--quick-glass)] px-1.5 py-1 hover:bg-[var(--quick-glass-hover)]'
-              title='Increase quantity'
-            >
-              +
-            </button>
+        ) : (
+          <div className='mt-2 flex items-center justify-between gap-3 text-xs text-[var(--quick-text-muted)]'>
+            <span>{contextAttached ? 'Context attached' : 'No context attached'}</span>
+            <span>{sessionMode} · {resolvedModels[modelIdx]} · x{quantity}</span>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

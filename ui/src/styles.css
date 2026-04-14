@@ -14,3 +14,23 @@
   --quick-text-muted: var(--muted-foreground);
   --quick-text-error: var(--destructive);
 }
+
+.quick-composer-shell,
+.quick-composer-shell:focus-within {
+  box-shadow: none;
+}
+
+.quick-composer-shell:focus-within {
+  border-color: var(--gray-divider) !important;
+  --tw-ring-shadow: 0 0 #0000 !important;
+  --tw-ring-offset-shadow: 0 0 #0000 !important;
+}
+
+.quick-composer-shell textarea,
+.quick-composer-shell textarea:focus,
+.quick-composer-shell textarea:focus-visible {
+  border: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent;
+}
