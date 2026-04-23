@@ -17,7 +17,7 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@graphyn/composer": "workspace:*"
+    "@graphyn/composer": "file:../../../../packages/composer"
   },
   "peerDependencies": {
     "react": ">=18",
