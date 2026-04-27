@@ -11,6 +11,10 @@ capabilities = [
   "context_capture",
 ]
 
+[availability]
+status = "deferred"
+reason = "Quick is prototype evidence only until Lens v2 launch wiring and Bonjour/BLE discovery land."
+
 [rules]
 workflow = ["capture_context", "submit_handoff", "open_thread"]
 supported_tools = ["quick_submit_handoff"]
