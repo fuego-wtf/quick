@@ -4,8 +4,6 @@ node_modules/
 
 # Graphyn generated artifacts baseline
 node_modules/
-.pnpm-store/
-.yarn/
 .bun/
 dist/
 build/
