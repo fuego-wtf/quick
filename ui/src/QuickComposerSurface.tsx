@@ -272,7 +272,7 @@ export function QuickComposerSurface({
         backgroundRepeat: 'no-repeat',
       }}
     >
-      <div className='w-full max-w-[780px] rounded-xl border border-white/10 bg-[color-mix(in_srgb,var(--background)_78%,transparent)] p-3 shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur-xl'>
+      <div className='w-full max-w-[780px] rounded-xl border border-white/10 bg-[color-mix(in_srgb,var(--bg)_78%,transparent)] p-3 shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur-xl'>
         <div className='mb-2 flex items-start gap-2'>
           <div className='flex flex-1 flex-wrap items-center gap-1.5'>
             {resolvedSuggestions.map((suggestion) => {
@@ -356,7 +356,7 @@ export function QuickComposerSurface({
           placeholder='Ask anything...'
           onEscape={onDismiss}
           disabled={isSubmitting}
-          className='quick-composer-shell bg-[color-mix(in_srgb,var(--card)_92%,transparent)] focus-within:!border-[var(--gray-divider)] focus-within:!ring-0 focus-within:!ring-offset-0 focus-within:!shadow-none focus-within:[--tw-ring-shadow:0_0_#0000] focus-within:[--tw-ring-offset-shadow:0_0_#0000]'
+          className='quick-composer-shell bg-[color-mix(in_srgb,var(--surface)_92%,transparent)] focus-within:!border-[var(--gray-divider)] focus-within:!ring-0 focus-within:!ring-offset-0 focus-within:!shadow-none focus-within:[--tw-ring-shadow:0_0_#0000] focus-within:[--tw-ring-offset-shadow:0_0_#0000]'
         />
 
         {errorMessage ? (

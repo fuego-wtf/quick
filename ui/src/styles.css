@@ -6,12 +6,12 @@
  * don't carry raw rgba() values.
  */
 :root {
-  --quick-scrim: color-mix(in srgb, var(--background) 58%, transparent);
+  --quick-scrim: color-mix(in srgb, var(--bg) 58%, transparent);
   --quick-glass: color-mix(in srgb, white 8%, transparent);
   --quick-glass-hover: color-mix(in srgb, white 12%, transparent);
-  --quick-glass-active: color-mix(in srgb, var(--foreground) 16%, transparent);
-  --quick-text: var(--foreground);
-  --quick-text-muted: var(--muted-foreground);
+  --quick-glass-active: color-mix(in srgb, var(--t1) 16%, transparent);
+  --quick-text: var(--t1);
+  --quick-text-muted: var(--t2);
   --quick-text-error: var(--destructive);
 }
 
